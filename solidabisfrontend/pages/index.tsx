@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import styles from '../styles/Home.module.css';
 import restaurantService from '../services/restaurants';
-import { Data, Restaurant } from '../types/restaurant';
+import { Data, Dishes, Restaurant } from '../types/restaurant';
 import InfoMessage from '../components/InfoMessage';
 import Restaurants from '../components/Restaurants';
 import SearchField from '../components/SearchField';
@@ -21,21 +21,38 @@ const Home: NextPage = () => {
   const [infoMessage, setInfoMessage] = useState<string | null>(null);
   const [filter, setFilter] = useState<string>('');
   const [voted, setVoted] = useState<boolean>(false);
-  const [myVote, setMyVote] = useState<Restaurant | null>(null);
+  const [restaurantName, setRestaurantName] = useState<string>('');
+  const [restaurantId, setRestaurantId] = useState<string>('');
+  const [dishes, setDishes] = useState<Dishes[]>([]);
 
   useEffect(() => {
     if (sessionStorage.getItem('city')) {
-      const storage = sessionStorage.getItem('city'); //mandatory reassigning to avoid type problems with state
-      console.log(storage);
-      if (storage) {
-        setCityName(storage);
-        restaurantService.getRestaurants(storage).then((restaurantsInCity) => {
-          if (restaurantsInCity.restaurants.length !== 0) {
-            setRestaurantsInCity(restaurantsInCity);
-            setFilteredRestaurants(restaurantsInCity);
-            setCity('');
-          }
-        });
+      const cityStorage = sessionStorage.getItem('city'); //mandatory reassigning to avoid type problems with state
+      console.log(cityStorage);
+      if (cityStorage) {
+        setCityName(cityStorage);
+        restaurantService
+          .getRestaurants(cityStorage)
+          .then((restaurantsInCity) => {
+            if (restaurantsInCity.restaurants.length !== 0) {
+              setRestaurantsInCity(restaurantsInCity);
+              setFilteredRestaurants(restaurantsInCity);
+              setCity('');
+            }
+          });
+      }
+    }
+    if (sessionStorage.getItem('vote')) {
+      const voteStorage = sessionStorage.getItem('vote');
+      const idStorage = sessionStorage.getItem('id');
+      console.log(voteStorage);
+      console.log(idStorage);
+      if (voteStorage) {
+        setVoted(true);
+        setRestaurantName(voteStorage);
+      }
+      if (idStorage) {
+        setRestaurantId(idStorage);
       }
     }
   }, []);
@@ -64,8 +81,11 @@ const Home: NextPage = () => {
   const handleVote = (restaurant: Restaurant) => {
     restaurantService.postVote(restaurant.id).then(() => {
       setInfoMessage('Thank you for voting for ' + restaurant.name);
+      sessionStorage.setItem('vote', restaurant.name);
+      sessionStorage.setItem('id', restaurant.id);
       setVoted(true);
-      setMyVote(restaurant);
+      setRestaurantName(restaurant.name);
+      setRestaurantId(restaurant.id);
       setTimeout(() => {
         setInfoMessage(null);
       }, 5000);
@@ -83,24 +103,39 @@ const Home: NextPage = () => {
 
   const handleResetCity = () => {
     setRestaurantsInCity({ restaurants: [] });
+    sessionStorage.removeItem('city');
     console.log('Reset city');
   };
 
-  const handleResetVote = (restaurant: Restaurant) => {
-    restaurantService.postVote(restaurant.id).then(() => {
-      setInfoMessage('Your vote deleted for ' + restaurant.name);
+  const handleResetVote = (id: string, name: string) => {
+    restaurantService.postVote(id).then(() => {
+      setInfoMessage('Your vote deleted for ' + name);
       setVoted(false);
-      setMyVote(null);
+      setRestaurantId('');
+      setRestaurantName('');
+      sessionStorage.removeItem('vote');
+      sessionStorage.removeItem('id');
       setTimeout(() => {
         setInfoMessage(null);
       }, 5000);
     });
   };
 
+  //??????????
+  // const handleShowDishes = (dishes: Dishes) => {
+  //   if (dishes) {
+  //     setDishes(restaurant);
+  //   } else {
+  //     setInfoMessage(`${restaurant.name} has no dishes`);
+  //     setTimeout(() => {
+  //       setInfoMessage(null);
+  //     }, 5000);
+  //   }
+  // };
+
   return (
     <div className={styles.main}>
       <LinkPages />
-      <InfoMessage message={infoMessage} />
       <h1>Lounaat</h1>
       <div>
         <SearchField
@@ -108,18 +143,14 @@ const Home: NextPage = () => {
           city={city}
           setCity={setCity}
         />
-        <FilterRestaurants
-          filter={filter}
-          handleFilterChange={handleFilterChange}
-        />
       </div>
+
       <p></p>
-      {myVote && (
-        <p>
-          My vote: {myVote}
-          <button onClick={() => handleResetVote(myVote)}>reset vote</button>
-        </p>
-      )}
+      <InfoMessage message={infoMessage} />
+      <FilterRestaurants
+        filter={filter}
+        handleFilterChange={handleFilterChange}
+      />
 
       {restaurantsInCity.restaurants.length > 0 && (
         <Restaurants
@@ -128,6 +159,10 @@ const Home: NextPage = () => {
           setInfoMessage={setInfoMessage}
           handleVote={handleVote}
           voted={voted}
+          handleShowDishes={handleShowDishes}
+          restaurantName={restaurantName}
+          restaurantId={restaurantId}
+          handleResetVote={handleResetVote}
         />
       )}
       <button onClick={handleResetCity}>reset city</button>

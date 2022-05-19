@@ -10,17 +10,16 @@ async function getRestaurants(city: string) {
   return response.json();
 }
 const postVote = async (id: string) => {
-  const response = await fetch(voteUrl + id, {
+  return fetch(voteUrl + id, {
     method: 'POST',
     mode: 'no-cors',
     credentials: 'include',
   });
-  console.log(response);
-  return response;
 };
 
 async function getResults() {
   const response = await fetch(resultUrl);
+  console.log(response);
   return response.json();
 }
 

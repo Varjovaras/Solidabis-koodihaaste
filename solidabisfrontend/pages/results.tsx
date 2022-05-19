@@ -5,11 +5,13 @@ import LinkPages from '../components/LinkPages';
 import restaurantService from '../services/restaurants';
 
 const Results = () => {
-  const [results, setResults] = useState<Result>([]);
+  const [resultData, setResultData] = useState<Result>({
+    results: [],
+  });
 
   useEffect(() => {
     restaurantService.getResults().then((results) => {
-      setResults(results);
+      setResultData(results);
     });
   }, []);
 
@@ -17,12 +19,15 @@ const Results = () => {
     <div className={styles.main}>
       <LinkPages />
       <ul>
-        {/* <button onClick={handleButton}>1234</button> */}
-        {results.results.map((result) => (
-          <li key={result.restaurantid}>
-            {result.name} {result.votes}
-          </li>
-        ))}
+        {resultData.results.length !== 0 ? (
+          resultData.results.map((result) => (
+            <li key={result.restaurantid}>
+              {result.name} {result.votes}
+            </li>
+          ))
+        ) : (
+          <div>No votes given today</div>
+        )}
       </ul>
     </div>
   );

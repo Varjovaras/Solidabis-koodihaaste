@@ -1,5 +1,6 @@
 import { Data, Restaurant } from '../types/restaurant';
 import SingleRestaurant from './SingleRestaurant';
+import styles from './Restaurants.module.css';
 
 interface Props {
   cityName: string;
@@ -7,6 +8,10 @@ interface Props {
   setInfoMessage: (message: string | null) => void;
   handleVote: (restaurant: Restaurant) => void;
   voted: boolean;
+  handleShowDishes: (restaurant: Restaurant) => void;
+  restaurantId: string;
+  restaurantName: string;
+  handleResetVote: (id: string, name: string) => void;
 }
 
 const Restaurants = ({
@@ -15,11 +20,23 @@ const Restaurants = ({
   setInfoMessage,
   handleVote,
   voted,
+  handleShowDishes,
+  restaurantId,
+  restaurantName,
+  handleResetVote,
 }: Props) => {
   return (
     <div>
-      <ul>
-        <h3>{cityName}</h3>
+      <h3 className={styles.header3}>{cityName}</h3>
+      {restaurantId && (
+        <div>
+          My vote: {restaurantName}
+          <button onClick={() => handleResetVote(restaurantId, restaurantName)}>
+            reset vote
+          </button>
+        </div>
+      )}
+      <div className={styles.column}>
         {filteredRestaurants.restaurants.map((restaurant: Restaurant) => (
           <SingleRestaurant
             restaurant={restaurant}
@@ -27,9 +44,10 @@ const Restaurants = ({
             setInfoMessage={setInfoMessage}
             handleVote={handleVote}
             voted={voted}
+            handleShowDishes={handleShowDishes}
           />
         ))}
-      </ul>
+      </div>
     </div>
   );
 };
