@@ -3,7 +3,7 @@ interface Props {
   message: string | null;
 }
 
-const InfoNotification = ({ message }: Props) => {
+const InfoMessage = ({ message }: Props) => {
   if (message === null) {
     return null;
   }
@@ -11,4 +11,4 @@ const InfoNotification = ({ message }: Props) => {
   return <div className={styles.info}>{message}</div>;
 };
 
-export default InfoNotification;
+export default InfoMessage;

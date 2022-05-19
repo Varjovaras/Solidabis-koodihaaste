@@ -5,8 +5,8 @@ export interface Data {
 }
 
 export interface Restaurant {
-  id?: string;
-  name?: string;
+  id: string;
+  name: string;
   openingHours?: string;
   votes?: number;
   dishes?:
@@ -18,4 +18,14 @@ export interface Restaurant {
         }
       ]
     | [];
+}
+
+export interface Result {
+  date: string;
+  results: {
+    votes: number;
+    restaurantid: string;
+    name: string;
+    city: string;
+  }[];
 }
