@@ -9,7 +9,13 @@ export interface Restaurant {
   name: string;
   openingHours?: string;
   votes?: number;
-  dishes?: Dishes[] | [];
+  dishes?: Dish[];
+}
+
+export interface Dish {
+  name?: string;
+  price?: string;
+  attributes?: string;
 }
 
 export interface Result {
@@ -20,10 +26,4 @@ export interface Result {
     name: string;
     city: string;
   }[];
-}
-
-export interface Dishes {
-  name?: string;
-  price?: string;
-  attributes?: string;
 }

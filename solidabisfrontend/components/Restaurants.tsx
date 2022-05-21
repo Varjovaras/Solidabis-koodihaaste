@@ -1,9 +1,9 @@
 import { Data, Restaurant } from '../types/restaurant';
 import SingleRestaurant from './SingleRestaurant';
 import styles from './Restaurants.module.css';
+import RestaurantVote from './RestaurantVote';
 
 interface Props {
-  cityName: string;
   filteredRestaurants: Data;
   setInfoMessage: (message: string | null) => void;
   handleVote: (restaurant: Restaurant) => void;
@@ -16,7 +16,6 @@ interface Props {
 
 const Restaurants = ({
   filteredRestaurants,
-  cityName,
   setInfoMessage,
   handleVote,
   voted,
@@ -27,15 +26,11 @@ const Restaurants = ({
 }: Props) => {
   return (
     <div>
-      <h3 className={styles.header3}>{cityName}</h3>
-      {restaurantId && (
-        <div>
-          My vote: {restaurantName}
-          <button onClick={() => handleResetVote(restaurantId, restaurantName)}>
-            reset vote
-          </button>
-        </div>
-      )}
+      <RestaurantVote
+        restaurantId={restaurantId}
+        restaurantName={restaurantName}
+        handleResetVote={handleResetVote}
+      />
       <div className={styles.column}>
         {filteredRestaurants.restaurants.map((restaurant: Restaurant) => (
           <SingleRestaurant

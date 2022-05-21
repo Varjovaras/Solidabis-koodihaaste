@@ -4,7 +4,7 @@ interface Props {
   setCity: (string: string) => void;
 }
 
-const SearchField = ({ handleSubmitCity, city, setCity }: Props) => {
+const SearchCity = ({ handleSubmitCity, city, setCity }: Props) => {
   return (
     <div>
       {' '}
@@ -21,4 +21,4 @@ const SearchField = ({ handleSubmitCity, city, setCity }: Props) => {
   );
 };
 
-export default SearchField;
+export default SearchCity;

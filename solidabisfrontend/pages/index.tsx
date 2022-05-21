@@ -2,12 +2,14 @@ import type { NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import styles from '../styles/Home.module.css';
 import restaurantService from '../services/restaurants';
-import { Data, Dishes, Restaurant } from '../types/restaurant';
+import { Data, Dish, Restaurant } from '../types/restaurant';
 import InfoMessage from '../components/InfoMessage';
 import Restaurants from '../components/Restaurants';
-import SearchField from '../components/SearchField';
+import SearchCity from '../components/SearchCity';
 import FilterRestaurants from '../components/FilterRestaurants';
 import LinkPages from '../components/LinkPages';
+import CityName from '../components/CityName';
+import Dishes from '../components/Dishes';
 
 const Home: NextPage = () => {
   const [city, setCity] = useState<string>('');
@@ -23,7 +25,7 @@ const Home: NextPage = () => {
   const [voted, setVoted] = useState<boolean>(false);
   const [restaurantName, setRestaurantName] = useState<string>('');
   const [restaurantId, setRestaurantId] = useState<string>('');
-  const [dishes, setDishes] = useState<Dishes[]>([]);
+  const [dishes, setDishes] = useState<Dish[]>();
 
   useEffect(() => {
     if (sessionStorage.getItem('city')) {
@@ -56,6 +58,8 @@ const Home: NextPage = () => {
       }
     }
   }, []);
+
+  console.log(dishes);
 
   const handleSubmitCity = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -103,6 +107,8 @@ const Home: NextPage = () => {
 
   const handleResetCity = () => {
     setRestaurantsInCity({ restaurants: [] });
+    setCity('');
+    setCityName('');
     sessionStorage.removeItem('city');
     console.log('Reset city');
   };
@@ -121,40 +127,34 @@ const Home: NextPage = () => {
     });
   };
 
-  //??????????
-  // const handleShowDishes = (dishes: Dishes) => {
-  //   if (dishes) {
-  //     setDishes(restaurant);
-  //   } else {
-  //     setInfoMessage(`${restaurant.name} has no dishes`);
-  //     setTimeout(() => {
-  //       setInfoMessage(null);
-  //     }, 5000);
-  //   }
-  // };
+  const handleShowDishes = (restaurant: Restaurant) => {
+    if (restaurant.dishes) {
+      if (restaurant.dishes.length !== 0 && restaurant.dishes[0].name !== '') {
+        setDishes(restaurant.dishes);
+      } else {
+        setInfoMessage(`No dishes to show for ${restaurant.name}`);
+        setDishes([]);
+        setTimeout(() => {
+          setInfoMessage(null);
+        }, 5000);
+      }
+    }
+  };
 
   return (
     <div className={styles.main}>
       <LinkPages />
-      <h1>Lounaat</h1>
-      <div>
-        <SearchField
-          handleSubmitCity={handleSubmitCity}
-          city={city}
-          setCity={setCity}
-        />
-      </div>
-
-      <p></p>
       <InfoMessage message={infoMessage} />
-      <FilterRestaurants
-        filter={filter}
-        handleFilterChange={handleFilterChange}
+      <SearchCity
+        handleSubmitCity={handleSubmitCity}
+        city={city}
+        setCity={setCity}
       />
 
+      <CityName cityName={cityName} />
+      {dishes && <Dishes dishes={dishes} />}
       {restaurantsInCity.restaurants.length > 0 && (
         <Restaurants
-          cityName={cityName}
           filteredRestaurants={filteredRestaurants}
           setInfoMessage={setInfoMessage}
           handleVote={handleVote}
@@ -165,6 +165,10 @@ const Home: NextPage = () => {
           handleResetVote={handleResetVote}
         />
       )}
+      <FilterRestaurants
+        filter={filter}
+        handleFilterChange={handleFilterChange}
+      />
       <button onClick={handleResetCity}>reset city</button>
     </div>
   );
