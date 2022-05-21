@@ -2,8 +2,11 @@ import { Data, Restaurant } from '../types/restaurant';
 import SingleRestaurant from './SingleRestaurant';
 import styles from './Restaurants.module.css';
 import RestaurantVote from './RestaurantVote';
+import FilterRestaurants from './FilterRestaurants';
 
 interface Props {
+  filter: string;
+  handleFilterChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   filteredRestaurants: Data;
   setInfoMessage: (message: string | null) => void;
   handleVote: (restaurant: Restaurant) => void;
@@ -15,6 +18,8 @@ interface Props {
 }
 
 const Restaurants = ({
+  filter,
+  handleFilterChange,
   filteredRestaurants,
   setInfoMessage,
   handleVote,
@@ -30,6 +35,10 @@ const Restaurants = ({
         restaurantId={restaurantId}
         restaurantName={restaurantName}
         handleResetVote={handleResetVote}
+      />
+      <FilterRestaurants
+        filter={filter}
+        handleFilterChange={handleFilterChange}
       />
       <div className={styles.column}>
         {filteredRestaurants.restaurants.map((restaurant: Restaurant) => (

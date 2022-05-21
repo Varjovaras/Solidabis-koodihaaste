@@ -6,10 +6,10 @@ import { Data, Dish, Restaurant } from '../types/restaurant';
 import InfoMessage from '../components/InfoMessage';
 import Restaurants from '../components/Restaurants';
 import SearchCity from '../components/SearchCity';
-import FilterRestaurants from '../components/FilterRestaurants';
 import LinkPages from '../components/LinkPages';
 import CityName from '../components/CityName';
 import Dishes from '../components/Dishes';
+import ResetCity from '../components/ResetCity';
 
 const Home: NextPage = () => {
   const [city, setCity] = useState<string>('');
@@ -58,8 +58,6 @@ const Home: NextPage = () => {
       }
     }
   }, []);
-
-  console.log(dishes);
 
   const handleSubmitCity = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -150,11 +148,16 @@ const Home: NextPage = () => {
         city={city}
         setCity={setCity}
       />
-
+      <ResetCity
+        restaurantsInCity={restaurantsInCity}
+        handleResetCity={handleResetCity}
+      />
       <CityName cityName={cityName} />
-      {dishes && <Dishes dishes={dishes} />}
+      <Dishes dishes={dishes} />
       {restaurantsInCity.restaurants.length > 0 && (
         <Restaurants
+          filter={filter}
+          handleFilterChange={handleFilterChange}
           filteredRestaurants={filteredRestaurants}
           setInfoMessage={setInfoMessage}
           handleVote={handleVote}
@@ -165,11 +168,6 @@ const Home: NextPage = () => {
           handleResetVote={handleResetVote}
         />
       )}
-      <FilterRestaurants
-        filter={filter}
-        handleFilterChange={handleFilterChange}
-      />
-      <button onClick={handleResetCity}>reset city</button>
     </div>
   );
 };
