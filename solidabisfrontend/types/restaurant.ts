@@ -7,9 +7,9 @@ export interface Data {
 export interface Restaurant {
   id: string;
   name: string;
-  openingHours?: string;
-  votes?: number;
-  dishes?: Dish[];
+  openingHours: string;
+  votes: number;
+  dishes: Dish[];
 }
 
 export interface Dish {

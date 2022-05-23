@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import styles from '../styles/Home.module.css';
 import restaurantService from '../services/restaurants';
-import { Data, Dish, Restaurant } from '../types/restaurant';
+import { Data, Restaurant } from '../types/restaurant';
 import InfoMessage from '../components/InfoMessage';
 import Restaurants from '../components/Restaurants';
 import SearchCity from '../components/SearchCity';
@@ -12,25 +12,30 @@ import Dishes from '../components/Dishes';
 import ResetCity from '../components/ResetCity';
 
 const Home: NextPage = () => {
-  const [city, setCity] = useState<string>('');
-  const [cityName, setCityName] = useState<string>('');
+  const [city, setCity] = useState<string>(''); //city for input
+  const [cityName, setCityName] = useState<string>(''); //city for display
   const [restaurantsInCity, setRestaurantsInCity] = useState<Data>({
     restaurants: [],
-  });
+  }); //store all restaurants in city
   const [filteredRestaurants, setFilteredRestaurants] = useState<Data>({
     restaurants: [],
-  });
+  }); //filter restaurants from restaurantsInCity to show in restaurants component
+  const [selectedRestaurant, setSelectedRestaurant] = useState<
+    Restaurant | undefined
+  >(); //selected restaurant for dishes component
+
   const [infoMessage, setInfoMessage] = useState<string | null>(null);
-  const [filter, setFilter] = useState<string>('');
-  const [voted, setVoted] = useState<boolean>(false);
+  const [filter, setFilter] = useState<string>(''); //filter input
+
+  //the voted restaurant id and name
   const [restaurantName, setRestaurantName] = useState<string>('');
   const [restaurantId, setRestaurantId] = useState<string>('');
-  const [dishes, setDishes] = useState<Dish[]>();
 
+  //initialize the restaurants and the city if found in sessionstorage
   useEffect(() => {
     if (sessionStorage.getItem('city')) {
       const cityStorage = sessionStorage.getItem('city'); //mandatory reassigning to avoid type problems with state
-      console.log(cityStorage);
+      console.log('City found in sessionstorage');
       if (cityStorage) {
         setCityName(cityStorage);
         restaurantService
@@ -47,10 +52,8 @@ const Home: NextPage = () => {
     if (sessionStorage.getItem('vote')) {
       const voteStorage = sessionStorage.getItem('vote');
       const idStorage = sessionStorage.getItem('id');
-      console.log(voteStorage);
-      console.log(idStorage);
+      console.log('The voted restaurant found in sessionstorage');
       if (voteStorage) {
-        setVoted(true);
         setRestaurantName(voteStorage);
       }
       if (idStorage) {
@@ -59,6 +62,7 @@ const Home: NextPage = () => {
     }
   }, []);
 
+  //handlers
   const handleSubmitCity = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setInfoMessage(null);
@@ -85,9 +89,9 @@ const Home: NextPage = () => {
       setInfoMessage('Thank you for voting for ' + restaurant.name);
       sessionStorage.setItem('vote', restaurant.name);
       sessionStorage.setItem('id', restaurant.id);
-      setVoted(true);
       setRestaurantName(restaurant.name);
       setRestaurantId(restaurant.id);
+      setSelectedRestaurant(undefined);
       setTimeout(() => {
         setInfoMessage(null);
       }, 5000);
@@ -107,6 +111,7 @@ const Home: NextPage = () => {
     setRestaurantsInCity({ restaurants: [] });
     setCity('');
     setCityName('');
+    setSelectedRestaurant(undefined);
     sessionStorage.removeItem('city');
     console.log('Reset city');
   };
@@ -114,7 +119,6 @@ const Home: NextPage = () => {
   const handleResetVote = (id: string, name: string) => {
     restaurantService.postVote(id).then(() => {
       setInfoMessage('Your vote deleted for ' + name);
-      setVoted(false);
       setRestaurantId('');
       setRestaurantName('');
       sessionStorage.removeItem('vote');
@@ -128,10 +132,10 @@ const Home: NextPage = () => {
   const handleShowDishes = (restaurant: Restaurant) => {
     if (restaurant.dishes) {
       if (restaurant.dishes.length !== 0 && restaurant.dishes[0].name !== '') {
-        setDishes(restaurant.dishes);
+        setSelectedRestaurant(restaurant);
       } else {
         setInfoMessage(`No dishes to show for ${restaurant.name}`);
-        setDishes([]);
+        setSelectedRestaurant(restaurant);
         setTimeout(() => {
           setInfoMessage(null);
         }, 5000);
@@ -148,26 +152,25 @@ const Home: NextPage = () => {
         city={city}
         setCity={setCity}
       />
-      <ResetCity
-        restaurantsInCity={restaurantsInCity}
-        handleResetCity={handleResetCity}
-      />
+
       <CityName cityName={cityName} />
-      <Dishes dishes={dishes} />
+      <Dishes restaurant={selectedRestaurant} handleVote={handleVote} />
       {restaurantsInCity.restaurants.length > 0 && (
         <Restaurants
           filter={filter}
           handleFilterChange={handleFilterChange}
           filteredRestaurants={filteredRestaurants}
           setInfoMessage={setInfoMessage}
-          handleVote={handleVote}
-          voted={voted}
           handleShowDishes={handleShowDishes}
           restaurantName={restaurantName}
           restaurantId={restaurantId}
           handleResetVote={handleResetVote}
         />
       )}
+      <ResetCity
+        restaurantsInCity={restaurantsInCity}
+        handleResetCity={handleResetCity}
+      />
     </div>
   );
 };

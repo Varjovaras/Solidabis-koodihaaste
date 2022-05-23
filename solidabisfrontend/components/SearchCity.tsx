@@ -9,6 +9,7 @@ const SearchCity = ({ handleSubmitCity, city, setCity }: Props) => {
     <div>
       {' '}
       <form onSubmit={handleSubmitCity}>
+        search cities
         <input
           type="text"
           id="fname"

@@ -1,14 +1,17 @@
-import { Dish } from '../types/restaurant';
+import { Dish, Restaurant } from '../types/restaurant';
+import VoteButton from './VoteButton';
 
 interface Props {
-  dishes: Dish[] | undefined;
+  restaurant: Restaurant | undefined;
+  handleVote: (restaurant: Restaurant) => void;
 }
-const Dishes = ({ dishes }: Props) => {
-  if (dishes && dishes.length !== 0) {
+const Dishes = ({ restaurant, handleVote }: Props) => {
+  if (restaurant && restaurant.dishes.length !== 0) {
     return (
       <ul>
-        <h4>dishes</h4>
-        {dishes.map((dish) => (
+        <h4>dishes in {restaurant.name}</h4>
+        <VoteButton handleVote={handleVote} restaurant={restaurant} />
+        {restaurant.dishes.map((dish: Dish) => (
           <li key={dish.name}>
             {dish.name} {dish.price} {dish.attributes}
           </li>

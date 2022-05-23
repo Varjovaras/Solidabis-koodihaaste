@@ -9,8 +9,6 @@ interface Props {
   handleFilterChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   filteredRestaurants: Data;
   setInfoMessage: (message: string | null) => void;
-  handleVote: (restaurant: Restaurant) => void;
-  voted: boolean;
   handleShowDishes: (restaurant: Restaurant) => void;
   restaurantId: string;
   restaurantName: string;
@@ -22,8 +20,6 @@ const Restaurants = ({
   handleFilterChange,
   filteredRestaurants,
   setInfoMessage,
-  handleVote,
-  voted,
   handleShowDishes,
   restaurantId,
   restaurantName,
@@ -46,8 +42,6 @@ const Restaurants = ({
             restaurant={restaurant}
             key={restaurant.id}
             setInfoMessage={setInfoMessage}
-            handleVote={handleVote}
-            voted={voted}
             handleShowDishes={handleShowDishes}
           />
         ))}

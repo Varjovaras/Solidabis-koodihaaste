@@ -1,21 +1,13 @@
 import { Restaurant } from '../types/restaurant';
 import styles from './Restaurants.module.css';
-import VoteButton from './VoteButton';
 
 interface Props {
   restaurant: Restaurant;
   setInfoMessage: (message: string | null) => void;
-  handleVote: (restaurant: Restaurant) => void;
-  voted: boolean;
   handleShowDishes: (restaurant: Restaurant) => void;
 }
 
-const SingleRestaurant = ({
-  restaurant,
-  handleVote,
-  handleShowDishes,
-  voted,
-}: Props) => {
+const SingleRestaurant = ({ restaurant, handleShowDishes }: Props) => {
   return (
     <div className={styles.row}>
       <button
@@ -24,7 +16,6 @@ const SingleRestaurant = ({
       >
         show dishes
       </button>
-      {!voted && <VoteButton handleVote={handleVote} restaurant={restaurant} />}
       {restaurant.name} {restaurant.openingHours}{' '}
     </div>
   );
