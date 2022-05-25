@@ -1,8 +1,8 @@
 import Link from 'next/link';
-
+import styles from './Link.module.css';
 const LinkPages = () => {
   return (
-    <div>
+    <div className={styles.header}>
       <h1>Lounaat</h1>
       <p>
         <Link href="/">

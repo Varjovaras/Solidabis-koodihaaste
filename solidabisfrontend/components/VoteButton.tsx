@@ -1,5 +1,5 @@
 import { Restaurant } from '../types/restaurant';
-import styles from './VoteButton.module.css';
+import styles from './Button.module.css';
 
 interface Props {
   handleVote: (restaurant: Restaurant) => void;
@@ -8,11 +8,11 @@ interface Props {
 
 const VoteButton = ({ handleVote, restaurant }: Props) => {
   return (
-    <div>
+    <>
       <button className={styles.button} onClick={() => handleVote(restaurant)}>
         Vote
       </button>
-    </div>
+    </>
   );
 };
 

@@ -1,6 +1,5 @@
 import type { NextPage } from 'next';
-import { useEffect, useState } from 'react';
-import styles from '../styles/Home.module.css';
+import { useEffect, useRef, useState } from 'react';
 import restaurantService from '../services/restaurants';
 import { Data, Restaurant } from '../types/restaurant';
 import InfoMessage from '../components/InfoMessage';
@@ -25,11 +24,12 @@ const Home: NextPage = () => {
   >(); //selected restaurant for dishes component
 
   const [infoMessage, setInfoMessage] = useState<string | null>(null);
-  const [filter, setFilter] = useState<string>(''); //filter input
+  const [filter, setFilter] = useState<string>('');
 
   //the voted restaurant id and name
   const [restaurantName, setRestaurantName] = useState<string>('');
   const [restaurantId, setRestaurantId] = useState<string>('');
+  const timer = useRef(null); //useref to reset setTimeout
 
   //initialize the restaurants and the city if found in sessionstorage
   useEffect(() => {
@@ -62,18 +62,13 @@ const Home: NextPage = () => {
     }
   }, []);
 
-  //handlers
   const handleSubmitCity = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setInfoMessage(null);
 
     restaurantService.getRestaurants(city).then((restaurantsInCity) => {
       if (restaurantsInCity.restaurants.length === 0) {
-        setInfoMessage(`${city} has no restaurants`);
         console.log(`${city} has no restaurants`);
-        setTimeout(() => {
-          setInfoMessage(null);
-        }, 5000);
+        infomessageHandler(`${city} has no restaurants`, 5);
       } else {
         sessionStorage.setItem('city', city);
         setRestaurantsInCity(restaurantsInCity);
@@ -86,15 +81,12 @@ const Home: NextPage = () => {
 
   const handleVote = (restaurant: Restaurant) => {
     restaurantService.postVote(restaurant.id).then(() => {
-      setInfoMessage('Thank you for voting for ' + restaurant.name);
       sessionStorage.setItem('vote', restaurant.name);
       sessionStorage.setItem('id', restaurant.id);
       setRestaurantName(restaurant.name);
       setRestaurantId(restaurant.id);
       setSelectedRestaurant(undefined);
-      setTimeout(() => {
-        setInfoMessage(null);
-      }, 5000);
+      infomessageHandler(`Your vote added for ${restaurant.name}`, 5);
     });
   };
 
@@ -118,14 +110,11 @@ const Home: NextPage = () => {
 
   const handleResetVote = (id: string, name: string) => {
     restaurantService.postVote(id).then(() => {
-      setInfoMessage('Your vote deleted for ' + name);
       setRestaurantId('');
       setRestaurantName('');
       sessionStorage.removeItem('vote');
       sessionStorage.removeItem('id');
-      setTimeout(() => {
-        setInfoMessage(null);
-      }, 5000);
+      infomessageHandler(`Your vote deleted for ${name}`, 5);
     });
   };
 
@@ -134,17 +123,26 @@ const Home: NextPage = () => {
       if (restaurant.dishes.length !== 0 && restaurant.dishes[0].name !== '') {
         setSelectedRestaurant(restaurant);
       } else {
-        setInfoMessage(`No dishes to show for ${restaurant.name}`);
         setSelectedRestaurant(restaurant);
-        setTimeout(() => {
-          setInfoMessage(null);
-        }, 5000);
+        infomessageHandler(`No dishes to show for ${restaurant.name}`, 5);
       }
     }
   };
 
+  const infomessageHandler = (text: string, length: number) => {
+    console.log(infoMessage);
+    if (timer.current) {
+      clearInterval(timer.current);
+    }
+    setInfoMessage(text);
+    // @ts-ignore
+    timer.current = setTimeout(() => {
+      setInfoMessage(null);
+    }, length * 1000);
+  };
+
   return (
-    <div className={styles.main}>
+    <div>
       <LinkPages />
       <InfoMessage message={infoMessage} />
       <SearchCity
@@ -160,7 +158,6 @@ const Home: NextPage = () => {
           filter={filter}
           handleFilterChange={handleFilterChange}
           filteredRestaurants={filteredRestaurants}
-          setInfoMessage={setInfoMessage}
           handleShowDishes={handleShowDishes}
           restaurantName={restaurantName}
           restaurantId={restaurantId}

@@ -9,8 +9,11 @@ const Dishes = ({ restaurant, handleVote }: Props) => {
   if (restaurant && restaurant.dishes.length !== 0) {
     return (
       <ul>
-        <h4>dishes in {restaurant.name}</h4>
-        <VoteButton handleVote={handleVote} restaurant={restaurant} />
+        <h4>
+          dishes in {restaurant.name}{' '}
+          <VoteButton handleVote={handleVote} restaurant={restaurant} />
+        </h4>
+
         {restaurant.dishes.map((dish: Dish) => (
           <li key={dish.name}>
             {dish.name} {dish.price} {dish.attributes}
