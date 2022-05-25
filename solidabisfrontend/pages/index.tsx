@@ -9,6 +9,7 @@ import LinkPages from '../components/LinkPages';
 import CityName from '../components/CityName';
 import Dishes from '../components/Dishes';
 import ResetCity from '../components/ResetCity';
+import styles from '../styles/Home.module.css';
 
 const Home: NextPage = () => {
   const [city, setCity] = useState<string>(''); //city for input
@@ -130,7 +131,6 @@ const Home: NextPage = () => {
   };
 
   const infomessageHandler = (text: string, length: number) => {
-    console.log(infoMessage);
     if (timer.current) {
       clearInterval(timer.current);
     }
@@ -142,7 +142,7 @@ const Home: NextPage = () => {
   };
 
   return (
-    <div>
+    <div className={styles.main}>
       <LinkPages />
       <InfoMessage message={infoMessage} />
       <SearchCity

@@ -3,7 +3,7 @@ import styles from './Link.module.css';
 const LinkPages = () => {
   return (
     <div className={styles.header}>
-      <h1>Lounaat</h1>
+      <h1>Lunches</h1>
       <p>
         <Link href="/">
           <a>Home </a>

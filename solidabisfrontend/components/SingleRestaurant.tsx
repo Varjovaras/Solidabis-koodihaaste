@@ -8,7 +8,7 @@ interface Props {
 const SingleRestaurant = ({ restaurant, handleShowDishes }: Props) => {
   return (
     <div>
-      <button onClick={() => handleShowDishes(restaurant)}>show dishes</button>
+      <button onClick={() => handleShowDishes(restaurant)}>show dishes</button>{' '}
       {restaurant.name} {restaurant.openingHours}{' '}
     </div>
   );

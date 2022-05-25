@@ -17,11 +17,23 @@ const postVote = async (id: string) => {
   });
 };
 
-async function getResults() {
+const getResults = async () => {
   const response = await fetch(resultUrl);
   console.log(response);
   return response.json();
-}
+};
 
-const restaurantService = { getRestaurants, postVote, getResults };
+//yyyy-mm-dd
+const getDayResults = async (date: string) => {
+  const response = await fetch(resultUrl + date);
+  console.log(response);
+  return response.json();
+};
+
+const restaurantService = {
+  getRestaurants,
+  postVote,
+  getResults,
+  getDayResults,
+};
 export default restaurantService;
