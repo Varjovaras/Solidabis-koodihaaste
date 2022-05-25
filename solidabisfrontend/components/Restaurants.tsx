@@ -2,6 +2,7 @@ import { Data, Restaurant } from '../types/restaurant';
 import SingleRestaurant from './SingleRestaurant';
 import RestaurantVote from './RestaurantVote';
 import FilterRestaurants from './FilterRestaurants';
+import styles from '../styles/Home.module.css';
 
 interface Props {
   filter: string;
@@ -33,7 +34,7 @@ const Restaurants = ({
         filter={filter}
         handleFilterChange={handleFilterChange}
       />
-      <div>
+      <div className={styles.restaurant}>
         {filteredRestaurants.restaurants.map((restaurant: Restaurant) => (
           <SingleRestaurant
             restaurant={restaurant}

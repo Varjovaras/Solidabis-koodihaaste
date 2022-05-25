@@ -1,3 +1,5 @@
+import styles from './Button.module.css';
+
 interface Props {
   handleSubmitCity: (event: React.FormEvent<HTMLFormElement>) => void;
   city: string;
@@ -9,14 +11,16 @@ const SearchCity = ({ handleSubmitCity, city, setCity }: Props) => {
     <div>
       {' '}
       <form onSubmit={handleSubmitCity}>
-        search cities
+        search cities{' '}
         <input
           type="text"
           id="fname"
           value={city}
           onChange={(e) => setCity(e.target.value)}
-        />
-        <button type="submit">submit</button>
+        />{' '}
+        <button className={styles.button} type="submit">
+          submit
+        </button>
       </form>
     </div>
   );
