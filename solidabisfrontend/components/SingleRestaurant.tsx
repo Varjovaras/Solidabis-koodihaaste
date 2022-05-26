@@ -1,5 +1,6 @@
 import { Restaurant } from '../types/restaurant';
-import styles from './Button.module.css';
+import styles from '../styles/Button.module.css';
+import restaurantStyles from '../styles/Home.module.css';
 
 interface Props {
   restaurant: Restaurant;
@@ -8,14 +9,16 @@ interface Props {
 
 const SingleRestaurant = ({ restaurant, handleShowDishes }: Props) => {
   return (
-    <div>
+    <div className={restaurantStyles.SingleRestaurant}>
+      <p>
+        {restaurant.name} {restaurant.openingHours}
+      </p>
       <button
         className={styles.button}
         onClick={() => handleShowDishes(restaurant)}
       >
         show dishes
-      </button>{' '}
-      {restaurant.name} {restaurant.openingHours}{' '}
+      </button>
     </div>
   );
 };

@@ -6,10 +6,7 @@ interface Props {
 const FilterRestaurants = ({ filter, handleFilterChange }: Props) => {
   return (
     <div>
-      <div>
-        <p>{''}</p>
-      </div>
-      <div>search restaurants</div>
+      search restaurants
       <input
         type="text"
         value={filter}

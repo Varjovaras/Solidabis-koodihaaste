@@ -7,5 +7,12 @@
 }
 
 .restaurant {
-  margin-top: 5%;
+  width: 100%;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.SingleRestaurant {
+  margin: 5px;
+  border: 0.5px solid black;
 }

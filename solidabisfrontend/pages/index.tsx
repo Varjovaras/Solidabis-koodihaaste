@@ -5,7 +5,7 @@ import { Data, Restaurant } from '../types/restaurant';
 import InfoMessage from '../components/InfoMessage';
 import Restaurants from '../components/Restaurants';
 import SearchCity from '../components/SearchCity';
-import LinkPages from '../components/LinkPages';
+import Header from '../components/Header';
 import CityName from '../components/CityName';
 import Dishes from '../components/Dishes';
 import ResetCity from '../components/ResetCity';
@@ -143,7 +143,7 @@ const Home: NextPage = () => {
 
   return (
     <div className={styles.main}>
-      <LinkPages />
+      <Header />
       <InfoMessage message={infoMessage} />
       <SearchCity
         handleSubmitCity={handleSubmitCity}

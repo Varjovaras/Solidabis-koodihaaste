@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import styles from './Link.module.css';
-const LinkPages = () => {
+const Header = () => {
   return (
     <div className={styles.header}>
       <h1>Lunches</h1>
@@ -16,4 +16,4 @@ const LinkPages = () => {
   );
 };
 
-export default LinkPages;
+export default Header;

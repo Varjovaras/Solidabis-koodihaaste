@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Result } from '../types/restaurant';
-import LinkPages from '../components/LinkPages';
+import Header from '../components/Header';
 import restaurantService from '../services/restaurants';
 
 const Results = () => {
@@ -60,7 +60,7 @@ const Results = () => {
 
   return (
     <div>
-      <LinkPages />
+      <Header />
       <h3>Results for {date.toJSON().slice(0, 10).replace(/-/g, '/')}</h3>
       <button onClick={() => handleDayChange(-1)}>previous day</button>{' '}
       <button onClick={() => handleDayChange(1)}>next day</button>

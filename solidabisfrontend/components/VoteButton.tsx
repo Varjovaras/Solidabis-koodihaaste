@@ -1,5 +1,5 @@
 import { Restaurant } from '../types/restaurant';
-import styles from './Button.module.css';
+import styles from '../styles/Button.module.css';
 
 interface Props {
   handleVote: (restaurant: Restaurant) => void;

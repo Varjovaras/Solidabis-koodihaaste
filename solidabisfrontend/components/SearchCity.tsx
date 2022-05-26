@@ -1,4 +1,4 @@
-import styles from './Button.module.css';
+import styles from '../styles/Button.module.css';
 
 interface Props {
   handleSubmitCity: (event: React.FormEvent<HTMLFormElement>) => void;

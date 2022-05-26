@@ -1,0 +1,6 @@
+.button {
+  cursor: pointer;
+}
+.button :hover {
+  box-shadow: 0 2px 2px rgb(39 44 52 / 12%);
+}
