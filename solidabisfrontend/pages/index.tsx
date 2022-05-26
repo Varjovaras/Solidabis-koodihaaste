@@ -7,7 +7,6 @@ import Restaurants from '../components/Restaurants';
 import SearchCity from '../components/SearchCity';
 import Header from '../components/Header';
 import CityName from '../components/CityName';
-import Dishes from '../components/Dishes';
 import ResetCity from '../components/ResetCity';
 import styles from '../styles/Home.module.css';
 
@@ -20,9 +19,6 @@ const Home: NextPage = () => {
   const [filteredRestaurants, setFilteredRestaurants] = useState<Data>({
     restaurants: [],
   }); //filter restaurants from restaurantsInCity to show in restaurants component
-  const [selectedRestaurant, setSelectedRestaurant] = useState<
-    Restaurant | undefined
-  >(); //selected restaurant for dishes component
 
   const [infoMessage, setInfoMessage] = useState<string | null>(null);
   const [filter, setFilter] = useState<string>('');
@@ -86,8 +82,12 @@ const Home: NextPage = () => {
       sessionStorage.setItem('id', restaurant.id);
       setRestaurantName(restaurant.name);
       setRestaurantId(restaurant.id);
-      setSelectedRestaurant(undefined);
       infomessageHandler(`Your vote added for ${restaurant.name}`, 5);
+      restaurantService.getRestaurants(cityName).then((restaurantsInCity) => {
+        setRestaurantsInCity(restaurantsInCity);
+        setFilteredRestaurants(restaurantsInCity);
+        setCity('');
+      });
     });
   };
 
@@ -104,7 +104,6 @@ const Home: NextPage = () => {
     setRestaurantsInCity({ restaurants: [] });
     setCity('');
     setCityName('');
-    setSelectedRestaurant(undefined);
     sessionStorage.removeItem('city');
     console.log('Reset city');
   };
@@ -116,17 +115,20 @@ const Home: NextPage = () => {
       sessionStorage.removeItem('vote');
       sessionStorage.removeItem('id');
       infomessageHandler(`Your vote deleted for ${name}`, 5);
+      restaurantService.getRestaurants(cityName).then((restaurantsInCity) => {
+        if (restaurantsInCity.restaurants.length > 0) {
+          setRestaurantsInCity(restaurantsInCity);
+          setFilteredRestaurants(restaurantsInCity);
+          setCity('');
+        }
+      });
     });
   };
 
   const handleShowDishes = (restaurant: Restaurant) => {
-    if (restaurant.dishes) {
-      if (restaurant.dishes.length !== 0 && restaurant.dishes[0].name !== '') {
-        setSelectedRestaurant(restaurant);
-      } else {
-        setSelectedRestaurant(restaurant);
-        infomessageHandler(`No dishes to show for ${restaurant.name}`, 5);
-      }
+    if (restaurant.dishes.length === 0 || restaurant.dishes === undefined) {
+      infomessageHandler(`No dishes to show for ${restaurant.name}`, 5);
+      console.log(`No dishes to show for ${restaurant.name}`);
     }
   };
 
@@ -152,7 +154,6 @@ const Home: NextPage = () => {
       />
 
       <CityName cityName={cityName} />
-      <Dishes restaurant={selectedRestaurant} handleVote={handleVote} />
       {restaurantsInCity.restaurants.length > 0 && (
         <Restaurants
           filter={filter}
@@ -162,6 +163,7 @@ const Home: NextPage = () => {
           restaurantName={restaurantName}
           restaurantId={restaurantId}
           handleResetVote={handleResetVote}
+          handleVote={handleVote}
         />
       )}
       <ResetCity

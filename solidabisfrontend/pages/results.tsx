@@ -52,6 +52,7 @@ const Results = () => {
         .getDayResults(date.toJSON().slice(0, 10).replace(/-/g, '-'))
         .then((results) => {
           setResultData(results);
+          console.log('Day change successful');
         });
     } catch (error) {
       console.log(error);

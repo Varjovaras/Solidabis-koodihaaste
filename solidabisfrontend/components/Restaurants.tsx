@@ -12,6 +12,7 @@ interface Props {
   restaurantId: string;
   restaurantName: string;
   handleResetVote: (id: string, name: string) => void;
+  handleVote: (restaurant: Restaurant) => void;
 }
 
 const Restaurants = ({
@@ -22,9 +23,10 @@ const Restaurants = ({
   restaurantId,
   restaurantName,
   handleResetVote,
+  handleVote,
 }: Props) => {
   return (
-    <div>
+    <div className={styles.RestaurantHeader}>
       <RestaurantVote
         restaurantId={restaurantId}
         restaurantName={restaurantName}
@@ -40,6 +42,7 @@ const Restaurants = ({
             restaurant={restaurant}
             key={restaurant.id}
             handleShowDishes={handleShowDishes}
+            handleVote={handleVote}
           />
         ))}
       </div>
