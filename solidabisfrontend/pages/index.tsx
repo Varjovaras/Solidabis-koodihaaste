@@ -7,7 +7,6 @@ import Restaurants from '../components/Restaurants';
 import SearchCity from '../components/SearchCity';
 import Header from '../components/Header';
 import CityName from '../components/CityName';
-import ResetCity from '../components/ResetCity';
 import styles from '../styles/Home.module.css';
 
 const Home: NextPage = () => {
@@ -151,9 +150,12 @@ const Home: NextPage = () => {
         handleSubmitCity={handleSubmitCity}
         city={city}
         setCity={setCity}
+        restaurantsInCity={restaurantsInCity}
+        handleResetCity={handleResetCity}
       />
 
       <CityName cityName={cityName} />
+
       {restaurantsInCity.restaurants.length > 0 && (
         <Restaurants
           filter={filter}
@@ -166,10 +168,6 @@ const Home: NextPage = () => {
           handleVote={handleVote}
         />
       )}
-      <ResetCity
-        restaurantsInCity={restaurantsInCity}
-        handleResetCity={handleResetCity}
-      />
     </div>
   );
 };

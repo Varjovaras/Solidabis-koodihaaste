@@ -33,7 +33,7 @@ const SingleRestaurant = ({
   };
 
   return (
-    <div className={restaurantStyles.SingleRestaurant}>
+    <div id="restaurant" className={restaurantStyles.SingleRestaurant}>
       <VoteButton handleVote={handleVote} restaurant={restaurant} />
       {dishes
         ? (() => showDishButton('hide dishes'))()
@@ -43,7 +43,7 @@ const SingleRestaurant = ({
       </p>
       {dishes && <Dishes restaurant={restaurant} />}
 
-      <p>{restaurant.votes} votes</p>
+      <p id="votes">{restaurant.votes} votes</p>
     </div>
   );
 };

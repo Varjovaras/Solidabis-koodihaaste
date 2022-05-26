@@ -22,7 +22,6 @@ const Results = () => {
     const newDay = date;
     newDay.setDate(newDay.getDate() + num);
     setDate(newDay);
-    console.log(date);
     try {
       restaurantService
         .getDayResults(date.toJSON().slice(0, 10).replace(/-/g, '-'))
@@ -30,7 +29,7 @@ const Results = () => {
           setResultData(results);
         });
     } catch (error) {
-      console.log('error :D');
+      console.log(error);
     }
   };
 
@@ -63,8 +62,12 @@ const Results = () => {
     <div>
       <Header />
       <h3>Results for {date.toJSON().slice(0, 10).replace(/-/g, '/')}</h3>
-      <button onClick={() => handleDayChange(-1)}>previous day</button>{' '}
-      <button onClick={() => handleDayChange(1)}>next day</button>
+      <button id="previous-day-button" onClick={() => handleDayChange(-1)}>
+        previous day
+      </button>{' '}
+      <button id="next-day-button" onClick={() => handleDayChange(1)}>
+        next day
+      </button>
       <ul>
         {resultData.results.length !== 0 ? (
           resultData.results.map((result) => (
@@ -77,8 +80,10 @@ const Results = () => {
         )}
       </ul>
       <form onSubmit={handleDateChange}>
-        <input value={dateInput} onChange={handleDateInput} />
-        <button type="submit">submit</button>
+        <input id="date-input" value={dateInput} onChange={handleDateInput} />
+        <button id="submit-date-button" type="submit">
+          submit
+        </button>
       </form>
       <p>enter date yyyy-mm-dd</p>
     </div>

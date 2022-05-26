@@ -9,7 +9,11 @@ interface Props {
 const VoteButton = ({ handleVote, restaurant }: Props) => {
   return (
     <>
-      <button className={styles.button} onClick={() => handleVote(restaurant)}>
+      <button
+        id="vote-button"
+        className={styles.button}
+        onClick={() => handleVote(restaurant)}
+      >
         Vote
       </button>
     </>

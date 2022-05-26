@@ -6,7 +6,6 @@ async function getRestaurants(city: string) {
   const response = await fetch(restaurantUrl + city, {
     credentials: 'include',
   });
-  console.log(response);
   return response.json();
 }
 const postVote = async (id: string) => {
@@ -19,14 +18,12 @@ const postVote = async (id: string) => {
 
 const getResults = async () => {
   const response = await fetch(resultUrl);
-  console.log(response);
   return response.json();
 };
 
 //yyyy-mm-dd
 const getDayResults = async (date: string) => {
   const response = await fetch(resultUrl + date);
-  console.log(response);
   return response.json();
 };
 

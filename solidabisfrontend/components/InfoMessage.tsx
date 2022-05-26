@@ -1,4 +1,4 @@
-import styles from './InfoMessage.module.css';
+import styles from '../styles/Home.module.css';
 interface Props {
   message: string | null;
 }

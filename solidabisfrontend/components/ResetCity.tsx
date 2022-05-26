@@ -6,11 +6,13 @@ interface Props {
 }
 const ResetCity = ({ restaurantsInCity, handleResetCity }: Props) => {
   return (
-    <p>
+    <>
       {restaurantsInCity.restaurants.length !== 0 && (
-        <button onClick={handleResetCity}>reset city</button>
+        <button id="reset-button" onClick={handleResetCity}>
+          reset city
+        </button>
       )}
-    </p>
+    </>
   );
 };
 

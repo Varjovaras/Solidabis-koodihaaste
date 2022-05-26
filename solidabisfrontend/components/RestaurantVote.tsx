@@ -9,16 +9,19 @@ const RestaurantVote = ({
   handleResetVote,
 }: Props) => {
   return (
-    <div>
+    <>
       {restaurantId && (
         <p>
           My vote: {restaurantName}
-          <button onClick={() => handleResetVote(restaurantId, restaurantName)}>
+          <button
+            id="vote-reset-button"
+            onClick={() => handleResetVote(restaurantId, restaurantName)}
+          >
             reset vote
           </button>
         </p>
       )}
-    </div>
+    </>
   );
 };
 

@@ -8,6 +8,7 @@ const FilterRestaurants = ({ filter, handleFilterChange }: Props) => {
     <div style={{ marginBottom: '5px' }}>
       search restaurants
       <input
+        id="filter-restaurants"
         type="text"
         value={filter}
         onChange={(e) => {

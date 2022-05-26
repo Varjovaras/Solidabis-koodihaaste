@@ -26,7 +26,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", allowCredentials = "true")
+@CrossOrigin(origins = "http://localhost:3000/" , allowedHeaders = "*", allowCredentials = "true")
 @RequestMapping(value = "/api/v1", produces = "application/json")
 public class RestaurantController {
     public static final int VOTERID_EXPIRY_TIME_SECONDS = 60 * 60 * 24;
