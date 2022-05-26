@@ -2,17 +2,23 @@
   width: 100vw;
   height: 100vh;
   display: flex;
+  flex-wrap: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .restaurant {
-  width: 100%;
-  margin-top: 5px;
-  margin-bottom: 5px;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-auto-rows: minmax(100px, auto);
 }
 
+.RestaurantHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .SingleRestaurant {
-  margin: 5px;
-  border: 0.5px solid black;
+  border: 0.2px solid black;
+  padding: 5px;
 }

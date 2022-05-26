@@ -5,7 +5,7 @@ interface Props {
 
 const FilterRestaurants = ({ filter, handleFilterChange }: Props) => {
   return (
-    <div>
+    <div style={{ marginBottom: '5px' }}>
       search restaurants
       <input
         type="text"
