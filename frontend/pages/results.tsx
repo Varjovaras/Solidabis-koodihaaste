@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Result } from '../types/restaurant';
+import { Result } from '../types/types';
 import Header from '../components/Header';
 import restaurantService from '../services/restaurants';
 
