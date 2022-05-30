@@ -35,9 +35,15 @@ npm run dev
 ### Frontend
 
 Frontend toteutettu next.js react-frameworkilla typescriptiä käyttäen.
+
 Frontendissä ravintoloiden ja lounaiden haku toteutettu node.js omalla fetch API:lla ./services kansiossa.
+
 ./pages kansiossa etusivu ja tulosten haku sivut, jotka kutsuvat kaikki tarvittavat komponentit.
+
 Kaikki komponentit sijaitsevat ./components kansiossa.
+
 Kaikki ohjelman testit sijaitsevat ./cypress/iintegration kansiossa
+
 Ohjelman kaikki css kansiossa ./styles
+
 Ohjelman käyttämät tyypit sijaitsevat tyypit kansiossa ./types
