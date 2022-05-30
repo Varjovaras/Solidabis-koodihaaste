@@ -1,8 +1,7 @@
 import Link from 'next/link';
-import styles from '../styles/Home.module.css';
 const Header = () => {
   return (
-    <div className={styles.header}>
+    <div>
       <h1>Lunches</h1>
       <p>
         <Link href="/">

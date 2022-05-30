@@ -7,9 +7,7 @@ const Results = () => {
   const [resultData, setResultData] = useState<Result>({
     results: [],
   });
-
-  //yyyy-mm-dd
-  const [date, setDate] = useState<Date>(new Date());
+  const [date, setDate] = useState<Date>(new Date()); //yyyy-mm-dd
   const [dateInput, setDateInput] = useState<string>('');
 
   useEffect(() => {
@@ -47,21 +45,23 @@ const Results = () => {
     console.log(newDate);
     setDate(newDate);
     try {
-      restaurantService
-        .getDayResults(date.toJSON().slice(0, 10).replace(/-/g, '-'))
-        .then((results) => {
-          setResultData(results);
-          console.log('Day change successful');
-        });
+      restaurantService.getDayResults(dateHelper(newDate)).then((results) => {
+        setResultData(results);
+        console.log('Day change successful');
+      });
     } catch (error) {
       console.log(error);
     }
   };
 
+  const dateHelper = (date: Date): string => {
+    return date.toJSON().slice(0, 10).replace(/-/g, '/');
+  };
+
   return (
     <div>
       <Header />
-      <h3>Results for {date.toJSON().slice(0, 10).replace(/-/g, '/')}</h3>
+      <h3>Results for {dateHelper(date)}</h3>
       <button id="previous-day-button" onClick={() => handleDayChange(-1)}>
         previous day
       </button>{' '}
@@ -70,9 +70,9 @@ const Results = () => {
       </button>
       <ul>
         {resultData.results.length !== 0 ? (
-          resultData.results.map((result) => (
-            <li key={result.restaurantid}>
-              {result.name} {result.votes}
+          resultData.results.map((restaurant) => (
+            <li key={restaurant.restaurantid}>
+              {restaurant.name} {restaurant.votes} votes
             </li>
           ))
         ) : (

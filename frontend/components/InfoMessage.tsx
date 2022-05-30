@@ -1,4 +1,4 @@
-import styles from '../styles/Home.module.css';
+import styles from '../styles/Restaurant.module.css';
 interface Props {
   message: string | null;
 }

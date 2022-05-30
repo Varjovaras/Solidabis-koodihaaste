@@ -1,0 +1,11 @@
+{
+  "name": "solidabis",
+  "version": "1.0.0",
+  "repository": "https://github.com/Varjovaras/Solidabis-koodihaaste.git",
+  "scripts": {
+    "frontend": "cd frontend && yarn dev",
+    "backend": "cd backend && ./gradlew bootRun"
+  },
+  "author": "Kristjan Rajaniemi <Kristjan.rajaniemi@live.fi>",
+  "license": "MIT"
+}

@@ -2,7 +2,7 @@ import { Data, Restaurant } from '../types/restaurant';
 import SingleRestaurant from './SingleRestaurant';
 import RestaurantVote from './RestaurantVote';
 import FilterRestaurants from './FilterRestaurants';
-import styles from '../styles/Home.module.css';
+import styles from '../styles/Restaurant.module.css';
 
 interface Props {
   filter: string;
@@ -26,7 +26,7 @@ const Restaurants = ({
   handleVote,
 }: Props) => {
   return (
-    <div className={styles.RestaurantHeader}>
+    <div className={styles.restaurantHeader}>
       <RestaurantVote
         restaurantId={restaurantId}
         restaurantName={restaurantName}

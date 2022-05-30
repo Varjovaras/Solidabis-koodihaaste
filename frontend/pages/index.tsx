@@ -7,18 +7,17 @@ import Restaurants from '../components/Restaurants';
 import SearchCity from '../components/SearchCity';
 import Header from '../components/Header';
 import CityName from '../components/CityName';
-import styles from '../styles/Home.module.css';
+import styles from '../styles/Restaurant.module.css';
 
 const Home: NextPage = () => {
   const [city, setCity] = useState<string>(''); //city for input
   const [cityName, setCityName] = useState<string>(''); //city for display
   const [restaurantsInCity, setRestaurantsInCity] = useState<Data>({
     restaurants: [],
-  }); //store all restaurants in city
+  });
   const [filteredRestaurants, setFilteredRestaurants] = useState<Data>({
     restaurants: [],
-  }); //filter restaurants from restaurantsInCity to show in restaurants component
-
+  });
   const [infoMessage, setInfoMessage] = useState<string | null>(null);
   const [filter, setFilter] = useState<string>('');
 
@@ -27,7 +26,6 @@ const Home: NextPage = () => {
   const [restaurantId, setRestaurantId] = useState<string>('');
   const timer = useRef(null); //useref to reset setTimeout
 
-  //initialize the restaurants and the city if found in sessionstorage
   useEffect(() => {
     if (sessionStorage.getItem('city')) {
       const cityStorage = sessionStorage.getItem('city'); //mandatory reassigning to avoid type problems with state

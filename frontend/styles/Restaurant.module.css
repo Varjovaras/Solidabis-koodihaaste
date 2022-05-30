@@ -13,12 +13,12 @@
   grid-auto-rows: minmax(100px, auto);
 }
 
-.RestaurantHeader {
+.restaurantHeader {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.SingleRestaurant {
+.singleRestaurant {
   border: 0.2px solid black;
   padding: 5px;
 }

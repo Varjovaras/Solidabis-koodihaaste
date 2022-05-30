@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Restaurant } from '../types/restaurant';
-import styles from '../styles/Button.module.css';
-import restaurantStyles from '../styles/Home.module.css';
+import buttonStyles from '../styles/Button.module.css';
+import restaurantStyles from '../styles/Restaurant.module.css';
 import Dishes from './Dishes';
 import VoteButton from './VoteButton';
 
@@ -21,7 +21,7 @@ const SingleRestaurant = ({
   const showDishButton = (text: string) => {
     return (
       <button
-        className={styles.button}
+        className={buttonStyles.button}
         onClick={() => {
           handleShowDishes(restaurant);
           setDishes(!dishes);
@@ -33,11 +33,9 @@ const SingleRestaurant = ({
   };
 
   return (
-    <div id="restaurant" className={restaurantStyles.SingleRestaurant}>
+    <div id="restaurant" className={restaurantStyles.singleRestaurant}>
       <VoteButton handleVote={handleVote} restaurant={restaurant} />
-      {dishes
-        ? (() => showDishButton('hide dishes'))()
-        : (() => showDishButton('show dishes'))()}
+      {dishes ? showDishButton('hide dishes') : showDishButton('show dishes')}
       <p>
         {restaurant.name} {restaurant.openingHours}{' '}
       </p>
