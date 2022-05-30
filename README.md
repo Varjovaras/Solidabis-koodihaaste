@@ -16,8 +16,6 @@ docker run -p 8080:8080 solidabis/koodihaaste22:latest
 
 ```
 
-Backendi muutettu hyväksymään localhost:3000 osoitteesta tulevat pyynnöt.
-
 ### frontend käynnistyy frontend-kansiosta joko yarnilla tai npm:llä osoitteeseen localhost:3000
 
 ```
@@ -32,6 +30,10 @@ npm run dev
 
 ```
 
+### Backend
+
+Backendi muutettu hyväksymään localhost:3000 osoitteesta tulevat pyynnöt.
+
 ### Frontend
 
 Frontend toteutettu next.js react-frameworkilla typescriptiä käyttäen.
@@ -40,7 +42,7 @@ Frontendissä ravintoloiden ja lounaiden haku toteutettu node.js omalla fetch AP
 
 ./pages kansiossa etusivu ja tulosten haku sivut, jotka kutsuvat kaikki tarvittavat komponentit.
 
-Kaikki komponentit sijaitsevat ./components kansiossa.
+Kaikki ohjelman käyttämät komponentit sijaitsevat ./components kansiossa.
 
 Kaikki ohjelman testit sijaitsevat ./cypress/iintegration kansiossa
 
